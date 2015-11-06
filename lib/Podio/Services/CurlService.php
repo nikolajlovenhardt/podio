@@ -26,23 +26,69 @@ class CurlService implements CurlServiceInterface
 
         // Type
         switch ($method) {
+            // GET Request
             case ApiService::GET:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::GET);
+
+                // Headers
+                $headers['Content-type'] = 'application/x-www-form-urlencoded';
+                $headers['Content-length'] = '0';
+
+                $url = $this->generateUrl($url, $attributes);
                 break;
 
+            // POST request
             case ApiService::POST:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::POST);
 
+                // Headers
+                $headers['Content-type'] = 'application/x-www-form-urlencoded';
+                $headers['Content-length'] = '0';
+
+                $this->setPostFields($curl, $attributes, false, true);
+
+                // Upload
+                if (isset($options['upload']) && $options['upload']) {
+                    curl_setopt($curl, CURLOPT_POST, true);
+
+                    // Safe upload
+                    if(defined('CURLOPT_SAFE_UPLOAD')) {
+                        curl_setopt($curl, CURLOPT_SAFE_UPLOAD, false);
+                    }
+
+                    // Attributes
+                    $this->setPostFields($curl, $attributes);
+                }
+
+                // oauth
+                if (isset($options['oauth']) && $options['oauth']) {
+                    // Attributes
+                    $this->setPostFields($curl, $attributes, true);
+
+                    // Header
+                    $headers['Content-type'] = 'application/json';
+                }
                 break;
 
+            // PUT request
             case ApiService::PUT:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::PUT);
 
+                $headers['Content-type'] = 'application/json';
+
+                // Attributes
+                $this->setPostFields($curl, $attributes, true);
                 break;
 
+            // DELETE request
             case ApiService::DELETE:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::DELETE);
 
+                // Header
+                $headers['Content-type'] = 'application/x-www-form-urlencoded';
+                $headers['Content-length'] = '0';
+
+                $url = $this->generateUrl($url, $attributes);
                 break;
 
             default:
@@ -52,8 +98,58 @@ class CurlService implements CurlServiceInterface
 
         // Set headers
         $this->setHeaders($curl, array_merge($defaultHeaders, $headers));
+        $this->setUrl($curl, $url);
+
+        // Result
+        $response = curl_exec($curl);
 
         curl_close($curl);
+    }
+
+    /**
+     * Set url
+     *
+     * @param $curl
+     * @param string $url
+     */
+    protected function setUrl($curl, $url)
+    {
+        curl_setopt($curl, CURLOPT_URL, $url);
+    }
+
+    /**
+     * Set post fields
+     *
+     * @param $curl
+     * @param array $attributes
+     * @param bool|false $jsonEncode
+     */
+    protected function setPostFields($curl, array $attributes = [], $jsonEncode = false, $encoded = false)
+    {
+        if ($jsonEncode) {
+            $attributes = json_encode($jsonEncode, true);
+        }
+
+        if ($encoded) {
+            // TODO: HTTP QUERY
+        }
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $attributes);
+    }
+
+    /**
+     * Generate url with http query
+     *
+     * @param string $url
+     * @param array $attributes
+     * @return string
+     */
+    public function generateUrl($url, array $attributes = [])
+    {
+        $query = http_build_query($attributes);
+        $separator = strpos($url, '?') ? '&' : '?';
+
+        return $url . $separator . $query;
     }
 
     /**
