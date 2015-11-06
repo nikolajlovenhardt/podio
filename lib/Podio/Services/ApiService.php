@@ -81,7 +81,8 @@ class ApiService implements ApiServiceInterface
      */
     public function request($method, $url, array $attributes = [], array $options = [])
     {
-        $this->curlService->curl();
+        $this->curlService->curl(
+        );
     }
 
     /**

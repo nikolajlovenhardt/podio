@@ -15,20 +15,45 @@ class CurlService implements CurlServiceInterface
         $this->options = $options;
     }
 
-    /**
-     * Curl
-     *
-     * TODO: Finish
-     * @param array $headers
-     */
-    public function curl($headers = [])
+    public function curl($method, $url, array $attributes = [], array $headers = [])
     {
         $options = $this->options->get('curl');
         $defaultHeaders = $options['headers'];
 
+        // Initiate curl
         $curl = curl_init();
         $this->prepare($curl);
+
+        // Type
+        switch ($method) {
+            case ApiService::GET:
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::GET);
+                break;
+
+            case ApiService::POST:
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::POST);
+
+                break;
+
+            case ApiService::PUT:
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::PUT);
+
+                break;
+
+            case ApiService::DELETE:
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::DELETE);
+
+                break;
+
+            default:
+                // Throw exception
+                break;
+        }
+
+        // Set headers
         $this->setHeaders($curl, array_merge($defaultHeaders, $headers));
+
+        curl_close($curl);
     }
 
     /**
