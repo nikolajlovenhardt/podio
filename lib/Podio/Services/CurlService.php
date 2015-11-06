@@ -4,6 +4,7 @@ namespace nlp\Podio\Services;
 
 use nlp\Podio\Options\PodioOptions;
 use nlp\Podio\Podio;
+use nlp\Podio\Response;
 
 class CurlService implements CurlServiceInterface
 {
@@ -100,10 +101,19 @@ class CurlService implements CurlServiceInterface
         $this->setHeaders($curl, array_merge($defaultHeaders, $headers));
         $this->setUrl($curl, $url);
 
-        // Result
-        $response = curl_exec($curl);
+        // Body
+        $body = curl_exec($curl);
+
+        // Response
+        $response = new Response();
+        $response->setBody($body);
 
         curl_close($curl);
+    }
+
+    protected function parseHeaders()
+    {
+
     }
 
     /**
