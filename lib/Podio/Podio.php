@@ -35,6 +35,7 @@ class Podio
         $this->curlService = new CurlService($options);
 
         $this->apiService = new ApiService(
+            $this,
             $options,
             $this->curlService
         );
@@ -81,5 +82,10 @@ class Podio
     public function setOptions($options)
     {
         $this->options = $options;
+    }
+
+    public function getCredentials()
+    {
+        return $this->credentials;
     }
 }

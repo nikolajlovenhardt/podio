@@ -3,6 +3,7 @@
 namespace nlp\Podio\Services;
 
 use nlp\Podio\Options\PodioOptions;
+use nlp\Podio\Podio;
 
 class ApiService implements ApiServiceInterface
 {
@@ -11,14 +12,18 @@ class ApiService implements ApiServiceInterface
     const PUT = 'PUT';
     const DELETE = 'DELETE';
 
+    /** @var Podio */
+    protected $podio;
+
     /** @var PodioOptions */
     protected $options;
 
     /** @var CurlService */
     protected $curlService;
 
-    public function __construct(PodioOptions $options)
+    public function __construct(Podio $podio, PodioOptions $options)
     {
+        $this->podio = $podio;
         $this->options = $options;
         $this->curlService = new CurlService($options);
     }
@@ -81,6 +86,14 @@ class ApiService implements ApiServiceInterface
      */
     public function request($method, $url, array $attributes = [], array $options = [])
     {
+        // Add client ID & secret
+        $credentials = $this->podio->getCredentials();
+
+        $attributes = array_merge(
+            $credentials,
+            $attributes
+        );
+
         return $this->curlService->curl(
             $method,
             $url,
