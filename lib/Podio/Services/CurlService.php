@@ -5,7 +5,7 @@ namespace nlp\Podio\Services;
 use nlp\Podio\Options\PodioOptions;
 use nlp\Podio\Podio;
 
-class CurlService
+class CurlService implements CurlServiceInterface
 {
     /** @var PodioOptions */
     protected $options;

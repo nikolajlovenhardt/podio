@@ -2,34 +2,48 @@
 
 namespace nlp\Podio;
 
+use nlp\Podio\Authentication\Authentication;
 use nlp\Podio\Options\PodioOptions;
+use nlp\Podio\Services\ApiService;
 use nlp\Podio\Services\CurlService;
+use nlp\Podio\Services\CurlServiceInterface;
 
 class Podio
 {
     const VERSION = '4.3.0';
 
-    const GET = 'GET';
-    const POST = 'POST';
-    const PUT = 'PUT';
-    const DELETE = 'DELETE';
-
     /** @var PodioOptions */
     protected $options;
 
-    /** @var CurlService */
+    /** @var CurlServiceInterface */
     protected $curlService;
+
+    /** @var ApiService */
+    protected $apiService;
 
     /** @var array */
     protected $credentials = [];
 
     public function __construct($clientId, $clientSecret, array $options = [])
     {
-        $this->options = new PodioOptions($options);
-        $this->curlService = new CurlService($this->options);
+        $options = new PodioOptions($options);
+
+        $this->options = $options;
+
+        $this->curlService = new CurlService($options);
+
+        $this->apiService = new ApiService(
+            $options,
+            $this->curlService
+        );
 
         // Setup application
         $this->setCredentials($clientId, $clientSecret);
+    }
+
+    public function authenticate()
+    {
+        return new Authentication($this->apiService);
     }
 
     /**
