@@ -1,0 +1,38 @@
+{
+  "name": "nlp/podio",
+  "type": "library",
+  "description": "Podio SDK",
+  "keywords": [
+    "podio",
+    "sdk"
+  ],
+  "homepage": "https://github.com/nikolajlovenhardt/podio",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nikolaj Petersen",
+      "email": "nikolaj.lovenhardt@gmail.com"
+    }
+  ],
+
+  "require": {
+    "php": ">=5.4.0"
+  },
+
+  "require-dev": {
+    "phpunit/phpunit": "~4.0",
+    "codeclimate/php-test-reporter": "dev-master",
+    "phpmd/phpmd" : "1.4.*",
+    "squizlabs/php_codesniffer" : "1.5.*"
+  },
+
+  "suggest": {
+    "kdyby/curl-ca-bundle": "Improve security through providing current CA ROOT certificates bundle"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Podio": "lib/Podio"
+    }
+  }
+}
