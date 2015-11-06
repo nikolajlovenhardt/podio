@@ -27,7 +27,6 @@ class Podio
     public function __construct($clientId, $clientSecret, array $options = [])
     {
         $options = new PodioOptions($options);
-
         $this->options = $options;
 
         $this->curlService = new CurlService($options);
@@ -41,6 +40,11 @@ class Podio
         $this->setCredentials($clientId, $clientSecret);
     }
 
+    /**
+     * Authenticate
+     *
+     * @return Authentication
+     */
     public function authenticate()
     {
         return new Authentication($this->apiService);
