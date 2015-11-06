@@ -25,6 +25,8 @@ class CurlService implements CurlServiceInterface
         $curl = curl_init();
         $this->prepare($curl);
 
+        $headers['Content-type'] = 'application/x-www-form-urlencoded';
+
         // Type
         switch ($method) {
             // GET Request
@@ -32,7 +34,6 @@ class CurlService implements CurlServiceInterface
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::GET);
 
                 // Headers
-                $headers['Content-type'] = 'application/x-www-form-urlencoded';
                 $headers['Content-length'] = '0';
 
                 $url = $this->generateUrl($url, $attributes);
@@ -43,7 +44,6 @@ class CurlService implements CurlServiceInterface
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::POST);
 
                 // Headers
-                $headers['Content-type'] = 'application/x-www-form-urlencoded';
                 $headers['Content-length'] = '0';
 
                 $this->setPostFields($curl, $attributes, false, true);
@@ -75,10 +75,11 @@ class CurlService implements CurlServiceInterface
             case ApiService::PUT:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::PUT);
 
-                $headers['Content-type'] = 'application/json';
-
                 // Attributes
                 $this->setPostFields($curl, $attributes, true);
+
+                // Header
+                $headers['Content-type'] = 'application/json';
                 break;
 
             // DELETE request
@@ -86,7 +87,6 @@ class CurlService implements CurlServiceInterface
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, ApiService::DELETE);
 
                 // Header
-                $headers['Content-type'] = 'application/x-www-form-urlencoded';
                 $headers['Content-length'] = '0';
 
                 $url = $this->generateUrl($url, $attributes);
@@ -134,14 +134,10 @@ class CurlService implements CurlServiceInterface
      * @param array $attributes
      * @param bool|false $jsonEncode
      */
-    protected function setPostFields($curl, array $attributes = [], $jsonEncode = false, $encoded = false)
+    protected function setPostFields($curl, array $attributes = [], $jsonEncode = false)
     {
         if ($jsonEncode) {
             $attributes = json_encode($jsonEncode, true);
-        }
-
-        if ($encoded) {
-            // TODO: HTTP QUERY
         }
 
         curl_setopt($curl, CURLOPT_POSTFIELDS, $attributes);

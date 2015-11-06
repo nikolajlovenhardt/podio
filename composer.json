@@ -32,7 +32,7 @@
 
   "autoload": {
     "psr-4": {
-      "Podio": "lib/Podio"
+      "Podio\\": "lib/Podio"
     }
   }
 }

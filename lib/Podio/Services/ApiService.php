@@ -54,9 +54,9 @@ class ApiService implements ApiServiceInterface
      * @param array $attributes
      * @param array $options
      */
-    public function put($url, array $attributes = [], array $options = [])
+    public function put($url, array $attributes = [])
     {
-        return $this->request(self::PUT, $url, $attributes, $options);
+        return $this->request(self::PUT, $url, $attributes);
     }
 
     /**
@@ -66,9 +66,9 @@ class ApiService implements ApiServiceInterface
      * @param array $attributes
      * @param array $options
      */
-    public function delete($url, array $attributes = [], array $options = [])
+    public function delete($url, array $attributes = [])
     {
-        return $this->request(self::DELETE, $url, $attributes, $options);
+        return $this->request(self::DELETE, $url, $attributes);
     }
 
     /**
@@ -81,7 +81,8 @@ class ApiService implements ApiServiceInterface
      */
     public function request($method, $url, array $attributes = [], array $options = [])
     {
-        $this->curlService->curl(
+        $this->curlService->curl
+        (
         );
     }
 

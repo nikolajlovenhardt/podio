@@ -13,9 +13,9 @@ interface ApiServiceInterface
 
     public function post($url, array $attributes = [], array $options = []);
 
-    public function put($url, array $attributes = [], array $options = []);
+    public function put($url, array $attributes = []);
 
-    public function delete($url, array $attributes = [], array $options = []);
+    public function delete($url, array $attributes = []);
 
     public function request($method, $url, array $attributes = [], array $options = []);
 }
