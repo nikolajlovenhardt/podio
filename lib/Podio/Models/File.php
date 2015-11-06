@@ -6,7 +6,7 @@ namespace nlp\Podio\Models;
  * Class File
  * @package nlp\Podio\Models
  */
-class File
+class File extends BaseModel
 {
 
 }

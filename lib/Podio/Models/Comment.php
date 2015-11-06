@@ -9,7 +9,7 @@ use nlp\Podio\Collections\ArrayCollection;
  * Class Comment
  * @package nlp\Podio\Models
  */
-class Comment
+class Comment extends BaseModel
 {
     /** @var integer */
     protected $id;

@@ -2,15 +2,20 @@
 
 namespace nlp\Podio\Authentication;
 
+use nlp\Podio\Podio;
 use nlp\Podio\Services\ApiServiceInterface;
 
 class Authentication implements AuthenticationInterface
 {
+    /** @var Podio */
+    protected $podio;
+
     /** @var ApiServiceInterface */
     protected $apiService;
 
-    public function __construct(ApiServiceInterface $apiService)
+    public function __construct(Podio $podio, ApiServiceInterface $apiService)
     {
+        $this->podio = $podio;
         $this->apiService = $apiService;
     }
 
@@ -86,7 +91,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * TODO: Check authorization
+     * TODO: Check authorization & set authorized?
      *
      * @param array $authType
      * @param array $data
@@ -101,6 +106,8 @@ class Authentication implements AuthenticationInterface
                 'oauth_request' => true,
             ]
         );
+
+        // $this->podio->authorized = true?
 
         return true;
     }

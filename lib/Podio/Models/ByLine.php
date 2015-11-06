@@ -6,7 +6,7 @@ namespace nlp\Podio\Models;
  * Class ByLine
  * @package nlp\Podio\Models
  */
-class ByLine
+class ByLine extends BaseModel
 {
 
 }

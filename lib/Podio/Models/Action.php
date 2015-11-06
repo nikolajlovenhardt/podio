@@ -8,7 +8,7 @@ use nlp\Podio\Collections\ArrayCollection;
  * Class Action
  * @package nlp\Podio\Models
  */
-class Action
+class Action extends BaseModel
 {
     /** @var integer */
     protected $id;

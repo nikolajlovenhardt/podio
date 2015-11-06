@@ -6,7 +6,7 @@ namespace nlp\Podio\Models;
  * Class Via
  * @package nlp\Podio\Models
  */
-class Via
+class Via extends BaseModel
 {
 
 }

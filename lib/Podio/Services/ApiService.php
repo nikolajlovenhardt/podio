@@ -4,7 +4,7 @@ namespace nlp\Podio\Services;
 
 use nlp\Podio\Options\PodioOptions;
 
-class ApiService
+class ApiService implements ApiServiceInterface
 {
     const GET = 'GET';
     const POST = 'POST';

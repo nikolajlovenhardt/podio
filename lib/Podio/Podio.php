@@ -24,6 +24,9 @@ class Podio
     /** @var array */
     protected $credentials = [];
 
+    /** @var bool */
+    protected $authorized = false;
+
     public function __construct($clientId, $clientSecret, array $options = [])
     {
         $options = new PodioOptions($options);
@@ -47,7 +50,7 @@ class Podio
      */
     public function authenticate()
     {
-        return new Authentication($this->apiService);
+        return new Authentication($this, $this->apiService);
     }
 
     /**

@@ -9,13 +9,13 @@ interface ApiServiceInterface
     const PUT = 'PUT';
     const DELETE = 'DELETE';
 
-    public function get();
+    public function get($url, array $attributes = [], array $options = []);
 
-    public function post();
+    public function post($url, array $attributes = [], array $options = []);
 
-    public function put();
+    public function put($url, array $attributes = [], array $options = []);
 
-    public function delete();
+    public function delete($url, array $attributes = [], array $options = []);
 
     public function request($method, $url, array $attributes = [], array $options = []);
 }
